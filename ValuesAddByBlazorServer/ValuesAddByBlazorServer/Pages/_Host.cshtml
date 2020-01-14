@@ -31,6 +31,14 @@
         <a class="dismiss">🗙</a>
     </div>
 
+    @*這裡設定當伺服器斷線，不顯示遮罩訊息*@
+    <div id="components-reconnect-modal"></div>
+    <style>
+        .components-reconnect-modal .components-reconnect-show, .components-reconnect-failed, .components-reconnect-rejected {
+            display: none;
+        }
+    </style>
+
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
