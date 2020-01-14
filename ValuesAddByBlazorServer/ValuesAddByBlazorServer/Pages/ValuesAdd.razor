@@ -1,0 +1,13 @@
+﻿<h3>兩數相加 - 使用 Blazor Server</h3>
+<input @bind="value1">
+    +
+<input @bind="value2">
+<button @onclick="Add">=</button>
+<span>@result</span>
+@code {
+    int value1, value2, result;
+    void Add(Microsoft.AspNetCore.Components.Web.MouseEventArgs obj)
+    {
+        result = value1 + value2;
+    }
+}
