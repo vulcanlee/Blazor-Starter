@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+            integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <input type="number" v-model.number="x"> +
+        <input type="number" v-model.number="y">
+        <button v-on:click="add()">=</button>
+        <span>{{addResult}}</span>
+
+    </div>
+
+    <script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            x:'',
+            y:'',
+            addResult:''
+        },
+        methods:{
+            add(){
+                this.addResult=this.x+this.y;
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>
