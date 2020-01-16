@@ -1,0 +1,188 @@
+﻿@using System.Threading
+@using System.Threading.Tasks
+
+<div>
+    <h1>Blazor 小遊戲</h1>
+    <div>請選擇 剪刀、石頭、布</div>
+    <div>
+        <img src="@Rock.Image" class="@Rock.Background" style="width:10em;height:10em;"
+             @onclick="()=>{ Choose(Rock); }">
+        <img src="@Paper.Image" class="@Paper.Background" style="width:10em;height:10em;"
+             @onclick="()=>{ Choose(Paper); }">
+        <img src="@Scissors.Image" class="@Scissors.Background" style="width:10em;height:10em;"
+             @onclick="()=>{ Choose(Scissors); }">
+    </div>
+    <div>
+        @if (gameStatus == GameStatus.Start)
+        {
+            <button class="btn btn-primary"
+                    @onclick="Start">
+                開始
+            </button>
+        }
+        else if (gameStatus == GameStatus.Run)
+        {
+        }
+        else
+        {
+            <button class="btn btn-primary"
+                    @onclick="Restart">
+                再來一次
+            </button>
+        }
+    </div>
+    <div>
+        @if (gameStatus == GameStatus.Restart)
+        {
+            <span class="display-4">這次遊戲結果為  </span>
+        }
+        <span class="display-4 text-danger">
+            @GameMessage
+        </span>
+    </div>
+    <div>
+        <img src="@Computer" style="width:10em;height:10em;">
+    </div>
+</div>
+@code {
+    CancellationTokenSource cts = new CancellationTokenSource();
+    CancellationToken token;
+    void Start()
+    {
+        Play();
+    }
+    void Run()
+    {
+
+    }
+    void Restart()
+    {
+        Play();
+    }
+    void Play()
+    {
+        Reset();
+        GameMessage = "請選擇 剪刀 石頭 布";
+        cts = new CancellationTokenSource();
+        token = cts.Token;
+        Computer = Rock.Image;
+        Task.Run(async () =>
+        {
+            while (true)
+            {
+                if (!token.IsCancellationRequested)
+                {
+                    await InvokeAsync(() =>
+                    {
+                        if (Computer == Rock.Image)
+                        {
+                            Computer = Paper.Image;
+                        }
+                        else if (Computer == Paper.Image)
+                        {
+                            Computer = Scissors.Image;
+                        }
+                        else if (Computer == Scissors.Image)
+                        {
+                            Computer = Rock.Image;
+                        }
+                        StateHasChanged();
+                    });
+                    await Task.Delay(100, token);
+                }
+                else
+                {
+                    break;
+                }
+            }
+        });
+        gameStatus = GameStatus.Run;
+    }
+    void Choose(GameItem item)
+    {
+        if (gameStatus != GameStatus.Run)
+            return;
+        cts.Cancel();
+        gameStatus = GameStatus.Restart;
+        You = item.Image;
+        switch (item.Name)
+        {
+            case "Rock":
+                Rock.Selected = true;
+                break;
+            case "Paper":
+                Paper.Selected = true;
+                break;
+            case "Scissors":
+                Scissors.Selected = true;
+                break;
+        }
+        CheckResult();
+    }
+    void CheckResult()
+    {
+        if (You == Computer)
+        {
+            GameMessage = "平手";
+        }
+        else if ((You == Rock.Image && Computer == Scissors.Image) ||
+            (You == Scissors.Image && Computer == Paper.Image) ||
+            (You == Paper.Image && Computer == Rock.Image))
+        {
+            GameMessage = "你贏了，想要再來一次嗎？";
+        }
+        else
+        {
+            GameMessage = "你輸了，想要再來一次嗎？";
+        }
+    }
+    void Reset()
+    {
+        GameMessage = "";
+        Rock.Selected = false;
+        Paper.Selected = false;
+        Scissors.Selected = false;
+    }
+    public enum GameStatus
+    {
+        Start,
+        Run,
+        Restart
+    }
+
+    public class GameItem
+    {
+        public string Name { get; set; }
+
+        public string Image
+        {
+            get
+            {
+                return $"/Images/{Name}.png";
+            }
+        }
+        public bool Selected { get; set; }
+        public string Background
+        {
+            get
+            {
+                if (Selected == true)
+                {
+                    return "bg-secondary";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+    }
+
+    string GameMessage = "";
+    GameItem Rock = new GameItem { Name = "Rock" };
+    GameItem Paper = new GameItem { Name = "Paper" };
+    GameItem Scissors = new GameItem { Name = "Scissors" };
+    GameStatus gameStatus = GameStatus.Start;
+    string Computer = "";
+    string You = "";
+}
