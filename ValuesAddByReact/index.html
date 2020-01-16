@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Demo</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Form extends React.Component {
+        state = {
+          number1: 0,
+          number2: 0,
+          result: null
+        };
+
+        render() {
+          return (
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                this.setState({
+                  result: this.state.number1 + this.state.number2
+                });
+              }}
+            >
+              <label>
+                Number1:
+                <input
+                  type="number"
+                  name="number1"
+                  id="number1"
+                  onChange={e => {
+                    this.setState({ number1: +e.target.value });
+                  }}
+                  value={this.state.number1}
+                />
+                <br />
+              </label>
+              <label>
+                Number2:
+                <input
+                  type="number"
+                  name="number2"
+                  id="number2"
+                  onChange={e => {
+                    this.setState({ number2: +e.target.value });
+                  }}
+                  value={this.state.number2}
+                />
+                <br />
+              </label>
+              <button type="submit">Add</button>
+              <div>Result: {this.state.result}</div>
+            </form>
+          );
+        }
+      }
+      ReactDOM.render(<Form />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
