@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "兩數相加 - 使用 ASP.NET Core MVC";
+}
+
+    <h1>兩數相加 - 使用 ASP.NET Core MVC</h1>
+
+<form asp-controller="ValuesAdd" asp-action="Add" method="post">
+
+    <input id="Text1" type="text" name="value1" /> 
+    <span> + </span> <input id="Text1" type="text" name="value2" /> 
+    <input id="Submit1" type="submit" value=" = " />
+    <span> @ViewBag.SumResult </span>
+</form>
+
+<h2>@ViewBag.SumResult</h2>
+
