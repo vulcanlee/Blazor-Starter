@@ -1,0 +1,22 @@
+﻿@page "/counter"
+@using System.Threading
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-danger" @onclick="LongRunning">休息30秒</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+    void LongRunning()
+    {
+        Thread.Sleep(30000);
+    }
+}
