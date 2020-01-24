@@ -94,6 +94,16 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>*@
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            發生錯誤。在重新載入之前，此應用程式可能不再回應.
+        </environment>
+        <environment include="Development">
+            發生了未處理的異常。有關詳細資訊，請參閱瀏覽器開發工具.
+        </environment>
+        <a href="" class="reload">重新整理</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
     <script src="_framework/blazor.server.js"></script>
     <script>

@@ -6,9 +6,11 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+@*這裡不能夠使用 class，因為這是一個 Razor 元件*@
+<MyComponent class="bg-success" />
+
 @code {
     private int currentCount = 0;
-
     private void IncrementCount()
     {
         currentCount++;
